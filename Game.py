@@ -11,6 +11,9 @@ def create_game(json):
     data.GAME['turn'] = 0
     data.GAME['points'] = (0, 0)
     data.GAME['win'] = None
+    data.GAME['players_info'] = {}
+    for player in players:
+        data.GAME['players_info'][player] = []
     return jsonify({"status": "ok"})
 
 
