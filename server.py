@@ -26,9 +26,9 @@ def create_game():
     return Game.create_game(request.json)
 
 
-@app.route('/game/<int: id>', methods=['GET'])
-def get_game_status(id):
-    return Game.get_game_status(id)
+@app.route('/game/<string: username>', methods=['GET'])
+def get_game_status(username):
+    return Game.get_game_status(username)
 
 
 @app.route('/game', methods=['PUT'])

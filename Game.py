@@ -18,12 +18,12 @@ def create_game(json):
 
 
 def get_game_status(player):
-    # player : int
+    # player : string
     game = data.GAME
     return jsonify({
         "name": game['name'],
         "players": game['players'],
-        "players_info": [],
+        "players_info": game['players_info'][player],
         "turn": game['turn'],
         "points": game['points'],
         "win": game['win']
