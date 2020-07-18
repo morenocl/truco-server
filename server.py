@@ -1,5 +1,6 @@
 from flask import Flask, request
 import User
+import Game
 
 
 app = Flask(__name__)
@@ -20,7 +21,19 @@ def delete_users():
     return User.delete_users(request.json)
 
 
+@app.route('/game', methods=['POST'])
+def create_game():
+    return Game.create_game(request.json)
 
+
+@app.route('/game/<int: id>', methods=['GET'])
+def get_game_status(id):
+    return Game.get_game_status(id)
+
+
+@app.route('/game', methods=['PUT'])
+def update_points():
+    return Game.update_points(request.json)
 
 
 if __name__ == "__main__":
