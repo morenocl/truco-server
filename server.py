@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 
 @app.route('/user', methods=['GET'])
+def home():
+    return jsonify({ "home": "welcome" })
+
+
+@app.route('/user', methods=['GET'])
 def get_users():
     return User.get_users()
 
