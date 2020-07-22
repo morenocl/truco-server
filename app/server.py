@@ -1,6 +1,6 @@
 from flask import Flask, request
-import User
-import Game
+import app.User
+import app.Game
 
 
 app = Flask(__name__)
