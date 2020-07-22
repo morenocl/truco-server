@@ -29,3 +29,7 @@ def delete_users(json):
         data.USERS.remove(exist[0])
         msj = jsonify({ "status": "ok" })
     return msj
+
+
+def login_user(json):
+    return jsonify({ "status": "ok" })

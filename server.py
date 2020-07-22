@@ -16,6 +16,12 @@ def create_user():
     return User.create_user(request.json)
 
 
+@app.route('/user/login', methods=['POST'])
+def login_user():
+    print('login')
+    return User.login_user(request.json)
+
+
 @app.route('/user', methods=['DELETE'])
 def delete_users():
     return User.delete_users(request.json)
@@ -26,7 +32,7 @@ def create_game():
     return Game.create_game(request.json)
 
 
-@app.route('/game/<string: username>', methods=['GET'])
+@app.route('/game/<string:username>', methods=['GET'])
 def get_game_status(username):
     return Game.get_game_status(username)
 
