@@ -6,7 +6,7 @@ import Game
 app = Flask(__name__)
 
 
-@app.route('/user', methods=['GET'])
+@app.route('/', methods=['GET'])
 def home():
     return jsonify({ "home": "welcome" })
 
