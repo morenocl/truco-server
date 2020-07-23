@@ -16,6 +16,7 @@ def create_user(json):
         msj = jsonify({ "status": "ok" })
     else:
         msj = jsonify({ "status": "error", "message": "El usuario ya esta en uso." })
+    print(msj)
     return msj
 
 
