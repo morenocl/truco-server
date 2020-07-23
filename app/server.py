@@ -1,6 +1,6 @@
 from flask import Flask, request
-import app.User
-import app.Game
+from app import User
+from app import Game
 
 
 app = Flask(__name__)

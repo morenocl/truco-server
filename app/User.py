@@ -1,4 +1,4 @@
-import app.data
+from app import data
 import os
 from flask import jsonify
 

@@ -1,4 +1,4 @@
-import app.data
+from app import data
 
 
 def create_game(json):
