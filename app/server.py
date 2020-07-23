@@ -18,7 +18,7 @@ def get_users():
 
 @app.route('/user', methods=['POST'])
 def create_user():
-    return User.create_user(request.json)
+    return User.create_user(request.get_json(force=True))
 
 
 @app.route('/user/login', methods=['POST'])
