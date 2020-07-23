@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({ "home": "welcome" })
+    return 'Server work'
 
 
 @app.route('/user', methods=['GET'])
