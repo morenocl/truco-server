@@ -1,36 +1,56 @@
 from app import data
+from app.Deck import create_deck, deal
+from flask import jsonify
 
 
 def create_game(json):
-    name = json.get("name")
-    nosotros = json.get("nosotros")
-    ellos = json.get("ellos")
-    data.GAME.clear()
-    data.GAME['name'] = name
-    data.GAME['players'] = players
-    data.GAME['turn'] = 0
-    data.GAME['points'] = (0, 0)
-    data.GAME['win'] = None
-    data.GAME['players_info'] = {}
-    for player in players:
-        data.GAME['players_info'][player] = []
-    return jsonify({"status": "ok"})
+    try:
+        data.GAME.append({})
+        id = len(data.GAME) - 1
+        username = json.get("username")
+        name = json.get("name")
+        nosotros = json.get("nosotros")
+        ellos = json.get("ellos")
+        players = []
+        for n, e in zip(nosotros, ellos):
+            players.append(n)
+            players.append(e)
+        data.GAME[id]['id'] = id
+        data.GAME[id]['owner'] = username
+        data.GAME[id]['name'] = name
+        data.GAME[id]['turn'] = 0
+        data.GAME[id]['points'] = {"nos": 0, "ellos": 0}
+        data.GAME[id]['win'] = None
+        deal(id, players)
+        msj = jsonify({"status": "ok", "id": id})
+    except e:
+        msj = jsonify({"status": "error", "message": e})
+    return msj
 
 
-def get_game_status(player):
-    # player : string
-    game = data.GAME
+def get_game_started(username):
+    for game in data.GAME:
+        exist = [player for player in game['players_info'] if player['player'] == username and not game['win']]
+        print('Exist: ', exist)
+        if exist:
+            return jsonify({"status": "ok", "id": game['id']})
+    return jsonify({"status": "error", "message": "No hay juego iniciado para este usuario."})
+
+
+def get_game_status(id, username):
+    game = data.GAME[id]
     return jsonify({
         "name": game['name'],
-        "players": game['players'],
-        "players_info": game['players_info'][player],
+        "players_info": game['players_info'],
         "turn": game['turn'],
         "points": game['points'],
         "win": game['win']
     })
 
 
-def update_points(json):
+def update_points(id, json):
     points = json.get('points')
-    a, b = data.Game['points']
-    data.Game['points'] = a + points[0], b + points[1]
+    nos = data.Game[id]['points']['nos']
+    ellos = data.Game[id]['points']['ellos']
+    data.Game['points']['nos'] = nos + points['nos']
+    data.Game['points']['ellos'] = ellos + points['ellos']

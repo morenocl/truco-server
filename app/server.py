@@ -1,9 +1,11 @@
 from flask import Flask, request
 from app import User
 from app import Game
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/', methods=['GET'])
@@ -18,7 +20,7 @@ def get_users():
 
 @app.route('/user', methods=['POST'])
 def create_user():
-    return User.create_user(request.get_json(force=True))
+    return User.create_user(request.json)
 
 
 @app.route('/user/login', methods=['POST'])
@@ -38,13 +40,18 @@ def create_game():
 
 
 @app.route('/game/<string:username>', methods=['GET'])
-def get_game_status(username):
-    return Game.get_game_status(username)
+def get_game_started(username):
+    return Game.get_game_started(username)
 
 
-@app.route('/game', methods=['PUT'])
-def update_points():
-    return Game.update_points(request.json)
+@app.route('/game/<int:id>/<string:username>', methods=['GET'])
+def get_game_status(id, username):
+    return Game.get_game_status(id, username)
+
+
+@app.route('/game/<int:id>', methods=['PUT'])
+def update_points(id):
+    return Game.update_points(id, request.json)
 
 
 if __name__ == "__main__":
