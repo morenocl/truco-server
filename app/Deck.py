@@ -12,7 +12,8 @@ def create_deck():
     return deck
 
 
-def deal(id, players):
+def deal(id):
+    players = data.GAME[id]['players']
     data.GAME[id]['players_info'] = [{"player": p, "cards":[], "playedCards": []} for p in players]
     deck = create_deck()
     for player in data.GAME[id]['players_info']:

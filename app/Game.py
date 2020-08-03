@@ -3,6 +3,12 @@ from app.Deck import create_deck, deal
 from flask import jsonify
 
 
+def list_games():
+    games = data.GAME
+    list = [{"id": game['id'], "name": game['name'], "owner": game['owner']} for game in games]
+    return jsonify({"status": "ok", "games": list})
+
+
 def create_game(json):
     try:
         data.GAME.append({})
@@ -21,16 +27,31 @@ def create_game(json):
         data.GAME[id]['turn'] = 0
         data.GAME[id]['points'] = {"nos": 0, "ellos": 0}
         data.GAME[id]['win'] = None
-        deal(id, players)
+        data.GAME[id]['started'] = False
+        data.GAME[id]['players'] = players
+        data.GAME[id]['players_info'] = []
         msj = jsonify({"status": "ok", "id": id})
+        print('Create game ok: ', id)
+    except e:
+        msj = jsonify({"status": "error", "message": e})
+        print('Create game error: ', e)
+    return msj
+
+
+def start_game(id):
+    try:
+        data.GAME[id]['started'] = True
+        deal(id)
+        msj = jsonify({"status": "ok"})
     except e:
         msj = jsonify({"status": "error", "message": e})
     return msj
 
 
 def get_game_started(username):
+    # retorna id del primer juego empezado y que no termino, tal que contiene al jugador.
     for game in data.GAME:
-        exist = [player for player in game['players_info'] if player['player'] == username and not game['win']]
+        exist = [player for player in game['players_info'] if player['player'] == username and game['started'] and not game['win']]
         print('Exist: ', exist)
         if exist:
             return jsonify({"status": "ok", "id": game['id']})

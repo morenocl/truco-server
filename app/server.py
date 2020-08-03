@@ -34,9 +34,19 @@ def delete_users():
     return User.delete_users(request.json)
 
 
+@app.route('/game', methods=['GET'])
+def list_games():
+    return Game.list_games()
+
+
 @app.route('/game', methods=['POST'])
 def create_game():
     return Game.create_game(request.json)
+
+
+@app.route('/game/<int:id>', methods=['PATCH'])
+def start_game(id):
+    return Game.start_game(id)
 
 
 @app.route('/game/<string:username>', methods=['GET'])
