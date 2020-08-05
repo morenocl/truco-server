@@ -38,10 +38,20 @@ def create_game(json):
     return msj
 
 
+# auxiliar.
+def create_actions(id):
+    game = data.GAME[id]
+    for player in game['players_info']:
+        player['actions'].append({"type": 'end_turn'})
+        player['actions'].append({"type": 'envido'})
+        player['actions'].append({"type": 'truco'})
+
+
 def start_game(id):
     try:
         data.GAME[id]['started'] = True
         deal(id)
+        create_actions(id)
         msj = jsonify({"status": "ok"})
     except e:
         msj = jsonify({"status": "error", "message": e})
@@ -58,6 +68,7 @@ def get_game_started(username):
     return jsonify({"status": "error", "message": "No hay juego iniciado para este usuario."})
 
 
+# auxiliar.
 def is_equal(str1, str2):
     flag = len(str1) == len(str2)
     for (a,b) in zip(str1, str2):

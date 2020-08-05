@@ -14,7 +14,7 @@ def create_deck():
 
 def deal(id):
     players = data.GAME[id]['players']
-    data.GAME[id]['players_info'] = [{"player": p, "cards":[], "playedCards": []} for p in players]
+    data.GAME[id]['players_info'] = [{"player": p, "cards":[], "playedCards": [], "actions": []} for p in players]
     deck = create_deck()
     for player in data.GAME[id]['players_info']:
         for i in range(3):
