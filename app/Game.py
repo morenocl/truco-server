@@ -60,6 +60,9 @@ def get_game_started(username):
 
 def get_game_status(id, username):
     game = data.GAME[id]
+    for player in game['players_info']:
+        if username is not player['player']:
+            player['cards'] = list(map(lambda c: ('x', 'x'), player['cards']))
     return jsonify({
         "name": game['name'],
         "players_info": game['players_info'],
