@@ -58,18 +58,33 @@ def get_game_started(username):
     return jsonify({"status": "error", "message": "No hay juego iniciado para este usuario."})
 
 
+def is_equal(str1, str2):
+    flag = len(str1) == len(str2)
+    for (a,b) in zip(str1, str2):
+        if a != b:
+            flag = False
+    return flag
+
+
 def get_game_status(id, username):
-    game = data.GAME[id]
-    for player in game['players_info']:
-        if username is not player['player']:
-            player['cards'] = list(map(lambda c: ('x', 'x'), player['cards']))
-    return jsonify({
-        "name": game['name'],
-        "players_info": game['players_info'],
-        "turn": game['turn'],
-        "points": game['points'],
-        "win": game['win']
-    })
+    try:
+        game = data.GAME[id]
+        pInfo = [ player.copy() for player in data.GAME[id]['players_info'] ]
+        for player in pInfo:
+            if not is_equal(player['player'], username):
+                player['cards'] = list(map(lambda c: ('x', 'x'), player['cards']))
+
+        game = {
+            "name": game['name'],
+            "players_info": pInfo,
+            "turn": game['turn'],
+            "points": game['points'],
+            "win": game['win']
+        }
+        msj = jsonify({"status": "ok", "game": game})
+    except e:
+        msj = jsonify({"status": "error", "message": e})
+    return msj
 
 
 def update_points(id, json):
