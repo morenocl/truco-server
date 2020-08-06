@@ -88,7 +88,7 @@ def get_game_status(id, username):
         game = {
             "name": game['name'],
             "players_info": pInfo,
-            "turn": game['turn'],
+            "turn": game['players_info'][game['turn']]['player'],
             "points": game['points'],
             "win": game['win']
         }
@@ -104,3 +104,10 @@ def update_points(id, json):
     ellos = data.Game[id]['points']['ellos']
     data.Game['points']['nos'] = nos + points['nos']
     data.Game['points']['ellos'] = ellos + points['ellos']
+
+
+def play_action(id, username, json):
+    game = data.GAME[id]
+    action_type = json['action']['type']
+    if action_type == 'end_turn':
+        game['turn'] = (game['turn'] + 1) % len(game['players'])

@@ -59,9 +59,9 @@ def get_game_status(id, username):
     return Game.get_game_status(id, username)
 
 
-@app.route('/game/<int:id>', methods=['PUT'])
-def update_points(id):
-    return Game.update_points(id, request.json)
+@app.route('/game/<int:id>/<string:username>', methods=['POST'])
+def play_action(id, username):
+    return Game.play_action(id, username, request.json)
 
 
 if __name__ == "__main__":
